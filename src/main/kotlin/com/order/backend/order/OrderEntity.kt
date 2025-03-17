@@ -2,6 +2,8 @@ package com.order.backend.order
 
 import com.order.backend.product.ProductEntity
 import com.order.backend.user.UserEntity
+import com.order.backend.user.UserResource
+import com.order.backend.user.UserWrapper
 import jakarta.persistence.*
 
 @Entity
@@ -24,17 +26,17 @@ data class OrderEntity(
 
             address = this.address,
             products = this.products,
-            user = this.user
+            user = this.user?.toWrapper()
         )
     }
 }
 
-data class OrderWrapper(val address: String, val products: List<ProductEntity>, val user: UserEntity?){
+data class OrderWrapper(val address: String, val products: List<ProductEntity>, val user: UserWrapper?){
     fun toEntity(): OrderEntity{
         return OrderEntity(
             address = this.address,
             products = this.products,
-            user = this.user
+            user = this.user?.toEntity()
         )
     }
 
@@ -42,17 +44,17 @@ data class OrderWrapper(val address: String, val products: List<ProductEntity>, 
         return OrderResource(
             address = this.address,
             products = this.products,
-            user = this.user
+            user = this.user?.toResource()
         )
     }
 }
 
-data class OrderResource(val address: String, val products: List<ProductEntity>, val user: UserEntity?){
+data class OrderResource(val address: String, val products: List<ProductEntity>, val user: UserResource?){
     fun toWrapper(): OrderWrapper{
         return OrderWrapper(
             address = this.address,
             products = this.products,
-            user = this.user
+            user = this.user?.toWrapper()
         )
     }
 }
